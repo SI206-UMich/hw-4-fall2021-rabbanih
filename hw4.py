@@ -95,6 +95,9 @@ class Stall:
 		else:
 			self.inventory[food_name] = quantity
 
+    def __str__(self) :
+		return "Hello, we are " + self.name + ". This is the current menu " + str(self.inventory) + ". We charge $" + str(self.cost) + " per item. We have $" + str(self.money) + " in total."
+
 
 class TestAllMethods(unittest.TestCase):
     
@@ -200,18 +203,31 @@ class TestAllMethods(unittest.TestCase):
 ### Write main function
 def main():
     #Create different objects 
+    inventory = {"Burger":3, "Taco":50, "Burrito":20}
+	inventory2 = {"Pizza":69, "Fries":30, "Slider":45}
+
+	huzi = Customer("Huzaifa", 150)
+	deebo = Customer("Adeeb", 5)
+
+	stall1 = Stall("NYC", inventory, cost = 10)
+	stall2 = Stall("Eureka", inventory2, cost = 15)
+
+	omar = Cashier("Omar", stalls = [stall1])
+	ryan = Cashier("Riyyan", stalls = [stall2])
 
     #Try all cases in the validate_order function
     #Below you need to have *each customer instance* try the four cases
     #case 1: the cashier does not have the stall 
+    huzi.validate_order(ryan, stall1, "Burger", 3)
     
     #case 2: the casher has the stall, but not enough ordered food or the ordered food item
-    
-    #case 3: the customer does not have enough money to pay for the order: 
-    
-    #case 4: the customer successfully places an order
+    huzi.validate_order(omar, stall1, "Burger", 4)
 
-    pass
+    #case 3: the customer does not have enough money to pay for the order: 
+    deebo.validate_order(omar, stall1, "Burger", 4)
+
+    #case 4: the customer successfully places an order
+    huzi.validate_order(ryan, stall2, "Fries", 4)
 
 if __name__ == "__main__":
 	main()
